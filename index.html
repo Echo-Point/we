@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        label, input, button {
+        label, input, button, select {
             margin: 10px;
         }
     </style>
@@ -22,6 +22,14 @@
 <input type="number" id="leg" oninput="calculateHypotenuse()" step="any">
 <br><br>
 
+<label for="useRadical">Display result with radical symbol (√):</label>
+<select id="useRadical" onchange="calculateHypotenuse()">
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+</select>
+
+<br><br>
+
 <button onclick="calculateHypotenuse()">Calculate Hypotenuse</button>
 
 <h3>Results:</h3>
@@ -31,18 +39,28 @@
 <script>
 function calculateHypotenuse() {
     const leg = parseFloat(document.getElementById("leg").value);
+    const useRadical = document.getElementById("useRadical").value;
+    
     if (!leg) {
         document.getElementById("radicalResult").innerHTML = "";
         document.getElementById("decimalResult").innerHTML = "";
         return;
     }
 
-    // The hypotenuse of a 45°-45°-90° triangle is leg * sqrt(2)
-    const hypotenuseRadical = `${leg}√2`;
+    // Calculate the hypotenuse
     const hypotenuseDecimal = (leg * Math.sqrt(2)).toFixed(2);
 
+    let radicalResult = "";
+    if (useRadical === "yes") {
+        // Show the radical form (leg * √2)
+        radicalResult = `${leg}√2`;
+    } else {
+        // Show the radical form without √
+        radicalResult = `${leg * Math.sqrt(2)} feet`;
+    }
+
     // Display results
-    document.getElementById("radicalResult").innerHTML = "Hypotenuse (Radical Form): " + hypotenuseRadical;
+    document.getElementById("radicalResult").innerHTML = "Hypotenuse (Radical Form): " + radicalResult;
     document.getElementById("decimalResult").innerHTML = "Hypotenuse (Decimal Form): " + hypotenuseDecimal + " feet";
 }
 </script>
