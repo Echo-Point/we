@@ -3,80 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special Right Triangle Calculator</title>
+    <title>45°-45°-90° Triangle Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        label, input, select {
+        label, input, button {
             margin: 10px;
         }
     </style>
 </head>
 <body>
 
-<h2>Special Right Triangle Calculator</h2>
+<h2>45°-45°-90° Triangle Hypotenuse Calculator</h2>
 
-<label for="triangle">Select Triangle Type:</label>
-<select id="triangle" onchange="calculate()">
-    <option value="45-45">45°-45°-90°</option>
-    <option value="30-60">30°-60°-90°</option>
-</select>
-
+<label for="leg">Enter the length of the leg (in feet):</label>
+<input type="number" id="leg" oninput="calculateHypotenuse()" step="any">
 <br><br>
 
-<label for="side">Enter the length of the known side:</label>
-<input type="number" id="side" oninput="calculate()">
-
-<br><br>
-
-<label for="sideType">Select the side type:</label>
-<select id="sideType" onchange="calculate()">
-    <option value="leg">Leg</option>
-    <option value="hypotenuse">Hypotenuse</option>
-</select>
-
-<br><br>
+<button onclick="calculateHypotenuse()">Calculate Hypotenuse</button>
 
 <h3>Results:</h3>
 <p id="radicalResult"></p>
 <p id="decimalResult"></p>
 
 <script>
-function calculate() {
-    const side = parseFloat(document.getElementById("side").value);
-    const triangleType = document.getElementById("triangle").value;
-    const sideType = document.getElementById("sideType").value;
-
-    let radicalResult = "";
-    let decimalResult = "";
-
-    if (sideType === "leg") {
-        if (triangleType === "45-45") {
-            // For 45°-45°-90° triangle: hypotenuse = leg * √2
-            radicalResult = `${side}√2`;
-            decimalResult = (side * Math.sqrt(2)).toFixed(2);
-        } else if (triangleType === "30-60") {
-            // For 30°-60°-90° triangle: hypotenuse = 2 * leg
-            // and long leg = leg * √3
-            radicalResult = `Hypotenuse = ${2 * side}, Long Leg = ${side}√3`;
-            decimalResult = `Hypotenuse = ${(2 * side).toFixed(2)}, Long Leg = ${(side * Math.sqrt(3)).toFixed(2)}`;
-        }
-    } else if (sideType === "hypotenuse") {
-        if (triangleType === "45-45") {
-            // For 45°-45°-90° triangle: leg = hypotenuse / √2
-            radicalResult = `${side} / √2`;
-            decimalResult = (side / Math.sqrt(2)).toFixed(2);
-        } else if (triangleType === "30-60") {
-            // For 30°-60°-90° triangle: leg = hypotenuse / 2 and short leg = hypotenuse / 2
-            radicalResult = `Leg = ${side} / 2, Short Leg = ${side} / 2`;
-            decimalResult = `Leg = ${(side / 2).toFixed(2)}, Short Leg = ${(side / 2).toFixed(2)}`;
-        }
+function calculateHypotenuse() {
+    const leg = parseFloat(document.getElementById("leg").value);
+    if (!leg) {
+        document.getElementById("radicalResult").innerHTML = "";
+        document.getElementById("decimalResult").innerHTML = "";
+        return;
     }
 
-    document.getElementById("radicalResult").innerHTML = "Radical Form: " + radicalResult;
-    document.getElementById("decimalResult").innerHTML = "Decimal Form: " + decimalResult;
+    // The hypotenuse of a 45°-45°-90° triangle is leg * sqrt(2)
+    const hypotenuseRadical = `${leg}√2`;
+    const hypotenuseDecimal = (leg * Math.sqrt(2)).toFixed(2);
+
+    // Display results
+    document.getElementById("radicalResult").innerHTML = "Hypotenuse (Radical Form): " + hypotenuseRadical;
+    document.getElementById("decimalResult").innerHTML = "Hypotenuse (Decimal Form): " + hypotenuseDecimal + " feet";
 }
 </script>
 
